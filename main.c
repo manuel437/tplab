@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "string.h"
 
-#define STOCK_INGREDIENTES “stockingredientes.bin”
-
-
+#define STOCK_INGREDIENTES "stockingredientes.bin"
+#define DEMANDA "demanda.bin"
+#define RECETAS "recetas.bin"
+#define STOCK_VENTA "stockventa.bin"
 
 //Paso 1
 typedef struct
@@ -16,6 +17,10 @@ typedef struct
 }StockIngrediente;
 
 int cantDatosArch(int,char[]);
+int cantDatosArch(int,char[]);
+void despersistenciaStockIngre(StockIngrediente[], int);
+void persistenciaStockIngre(StockIngrediente[], int);
+void usuarioIngresaStockIngre(StockIngrediente[], int*);
 
 //Paso 2
 typedef struct
@@ -89,6 +94,70 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
         printf("- no se pudo abrir el archivo fun cantDatos\n");
     }
     return cant;
+}
+
+void despersistenciaStockIngre(StockIngrediente stock[], int cantEle) //"extraer Archivo pasar a arreglo"
+{
+    FILE* fp;
+    fp = fopen(STOCK_INGREDIENTES,"rb");
+    if(fp != NULL){
+        fread(stock,sizeof(STOCK_INGREDIENTES),cantEle,fp);
+        if(fclose(fp) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
+
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
+
+}
+
+void persistenciaStockIngre(StockIngrediente stock[], int validos){ // guardar info en el archivo
+    FILE* fp;
+    fp = fopen(STOCK_INGREDIENTES,"wb");
+    if(fp != NULL){
+        fwrite(stock,sizeof(STOCK_INGREDIENTES),validos,fp);
+        if(fclose(fp) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
+
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
+
+}
+
+void usuarioIngresaStockIngre(StockIngrediente stock[], int* validos){
+    char resp = 's';
+    int i = (*validos);
+    if(i < 40){
+
+        do{
+        printf("Ingrese el nombre del ingrediente\n");
+        fflush(stdin);
+        scanf("%s",stock[i].nombre_ingrediente);
+
+        printf("Ingrese la cantidad\n");
+        scanf("%f",&stock[i].cantidad);
+
+        printf("ingrese si el ingrediente es liquido o solido?\n");
+        fflush(stdin);
+        scanf("%s",stock[i].tipo);
+
+        printf("Ingrese el costo del ingrediente\n");
+        scanf("%f",&stock[i].costo);
+
+        i++;
+
+        }while((resp == 's' || resp == 'S') && (i < 40));
+        *validos = i;
+
+    }else{
+        printf("No se pueden cargar más ingredientes");
+    }
+
+
+
 }
 
 //Paso 2
