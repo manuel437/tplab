@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "string.h"
 
-#define STOCK_INGREDIENTES ìstockingredientes.binî
+#define STOCK_INGREDIENTES ‚Äústockingredientes.bin‚Äù
 
 
 
@@ -12,7 +12,7 @@ typedef struct
   char nombre_ingrediente[20];
   float cantidad;  //en kg o en litro segun el tipo de ingrediente
   char tipo[20]; /// "liquido" "solido"
-  float costo; ///costo por kg o por litro seg˙n corresponda
+  float costo; ///costo por kg o por litro seg√∫n corresponda
 }StockIngrediente;
 
 int cantDatosArch(int,char[]);
@@ -80,13 +80,10 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
     int cant = 0;
     FILE* arch = fopen(nombreArch,"rb");
     if (arch != NULL){
-        printf("+ archivo abierto fun cantDatos\n");
         fseek(arch,0,2);
         cant = ftell(arch)/(tamanioDato);
-        if(fclose(arch) == 0){
-            printf("+ archivo cerrado fun cantDatos\n");
-        }else{
-            printf("- archivo cerrado fun cantDatos\n");
+        if(fclose(arch) != 0){
+            printf("- archivo cerrado fun cantDatos\n")   
         }
     }else{
         printf("- no se pudo abrir el archivo fun cantDatos\n");
