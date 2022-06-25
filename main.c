@@ -17,10 +17,8 @@ typedef struct
 }StockIngrediente;
 
 int cantDatosArch(int,char[]);
-int cantDatosArch(int,char[]);
-void despersistenciaStockIngre(StockIngrediente[], int);
-void persistenciaStockIngre(StockIngrediente[], int);
-void usuarioIngresaStockIngre(StockIngrediente[], int*);
+void persistenciaStockIngre(StockIngrediente[50], int);
+void usuarioIngresaStockIngre(StockIngrediente[50], int*);
 
 //Paso 2
 typedef struct
@@ -88,7 +86,7 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
     return cant;
 }
 
-void despersistenciaStockIngre(StockIngrediente stock[], int cantEle) //"extraer Archivo pasar a arreglo"
+void despersistenciaStockIngre(StockIngrediente stock[50], int cantEle) //"extraer Archivo pasar a arreglo"
 {
     FILE* fp;
     fp = fopen(STOCK_INGREDIENTES,"rb");
@@ -104,7 +102,7 @@ void despersistenciaStockIngre(StockIngrediente stock[], int cantEle) //"extraer
 
 }
 
-void persistenciaStockIngre(StockIngrediente stock[], int validos){ // guardar info en el archivo
+void persistenciaStockIngre(StockIngrediente stock[50], int validos){ // guardar info en el archivo
     FILE* fp;
     fp = fopen(STOCK_INGREDIENTES,"wb");
     if(fp != NULL){
@@ -119,10 +117,10 @@ void persistenciaStockIngre(StockIngrediente stock[], int validos){ // guardar i
 
 }
 
-void usuarioIngresaStockIngre(StockIngrediente stock[], int* validos){
+void usuarioIngresaStockIngre(StockIngrediente stock[50], int* validos){
     char resp = 's';
     int i = (*validos);
-    if(i < 40){
+    if(i < 50){
 
         do{
         printf("Ingrese el nombre del ingrediente\n");
@@ -141,7 +139,7 @@ void usuarioIngresaStockIngre(StockIngrediente stock[], int* validos){
 
         i++;
 
-        }while((resp == 's' || resp == 'S') && (i < 40));
+        }while((resp == 's' || resp == 'S') && (i < 50));
         *validos = i;
 
     }else{
