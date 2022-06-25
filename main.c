@@ -91,7 +91,7 @@ void despersistenciaStockIngre(StockIngrediente stock[50], int cantEle) //"extra
     FILE* fp;
     fp = fopen(STOCK_INGREDIENTES,"rb");
     if(fp != NULL){
-        fread(stock,sizeof(STOCK_INGREDIENTES),cantEle,fp);
+        fread(stock,sizeof(StockIngrediente),cantEle,fp);
         if(fclose(fp) != 0){
             printf("- fallo al cerrar el archivo\n");
         }
@@ -106,7 +106,7 @@ void persistenciaStockIngre(StockIngrediente stock[50], int validos){ // guardar
     FILE* fp;
     fp = fopen(STOCK_INGREDIENTES,"wb");
     if(fp != NULL){
-        fwrite(stock,sizeof(STOCK_INGREDIENTES),validos,fp);
+        fwrite(stock,sizeof(StockIngrediente),validos,fp);
         if(fclose(fp) != 0){
             printf("- fallo al cerrar el archivo\n");
         }
