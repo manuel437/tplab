@@ -72,14 +72,6 @@ typedef struct
 //Paso 4
 
 
-int main()
-{
-
-
-
-    return 0;
-}
-
 //Paso 1
 int cantDatosArch(int tamanioDato,char nombreArch[]){
     int cant = 0;
