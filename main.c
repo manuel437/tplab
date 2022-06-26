@@ -18,7 +18,7 @@ typedef struct
 
 int cantDatosArch(int,char[]);
 void persistenciaStockIngre(StockIngrediente[50], int);
-void usuarioIngresaStockIngre(StockIngrediente[50], int*);
+ 
 
 //Paso 2
 typedef struct
@@ -117,34 +117,7 @@ void persistenciaStockIngre(StockIngrediente stock[50], int validos){ // guardar
 
 }
 
-void usuarioIngresaStockIngre(StockIngrediente stock[50], int* validos){
-    char resp = 's';
-    int i = (*validos);
-    if(i < 50){
-
-        do{
-        printf("Ingrese el nombre del ingrediente\n");
-        fflush(stdin);
-        scanf("%s",stock[i].nombre_ingrediente);
-
-        printf("Ingrese la cantidad\n");
-        scanf("%f",&stock[i].cantidad);
-
-        printf("ingrese si el ingrediente es liquido o solido?\n");
-        fflush(stdin);
-        scanf("%s",stock[i].tipo);
-
-        printf("Ingrese el costo del ingrediente\n");
-        scanf("%f",&stock[i].costo);
-
-        i++;
-
-        }while((resp == 's' || resp == 'S') && (i < 50));
-        *validos = i;
-
-    }else{
-        printf("No se pueden cargar más ingredientes");
-    }
+ 
 
 
 
