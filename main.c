@@ -67,10 +67,27 @@ typedef struct
   float valor_total; ///valor total a pagar
 }Venta;
 
-//Paso 4
+ 
+//prototipados-------------------------------------------------------------------------------------------------------------
+//archivos
+int cantDatosArch(int,char[]);
+void despersistenciaStockIngre(StockIngrediente stock[50], int cantEle);
+void persistenciaStockIngre(StockIngrediente stock[50], int validos);
+
+void despersistenciaRecetas(Receta resetass[20], int cantEle);
+void despersistenciaDemanda(Preparacion stock[50], int cantEle);
+  
+//paso 2
+void mostrarStock(StockIngrediente[50],int);
+void mostrarRecetas(Receta[20],int);
+void cocinar(Preparacion,StockIngrediente[],Receta[20],int);
+int comprobarStockParaPedido(Preparacion,StockIngrediente[],Receta[20],int);
+int RecetaDelPedido(Preparacion,Receta[20]);
 
 
-//Paso 1
+
+//funciones---------------------------------------------------------------------
+//archivos
 int cantDatosArch(int tamanioDato,char nombreArch[]){
     int cant = 0;
     FILE* arch = fopen(nombreArch,"rb");
@@ -86,8 +103,7 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
     return cant;
 }
 
-void despersistenciaStockIngre(StockIngrediente stock[50], int cantEle) //"extraer Archivo pasar a arreglo"
-{
+void despersistenciaStockIngre(StockIngrediente stock[50], int cantEle){ // extraer info del archivo a arreglo
     FILE* fp;
     fp = fopen(STOCK_INGREDIENTES,"rb");
     if(fp != NULL){
@@ -117,13 +133,115 @@ void persistenciaStockIngre(StockIngrediente stock[50], int validos){ // guardar
 
 }
 
- 
+void despersistenciaRecetas(Receta resetass[20], int cantEle) //"extraer Archivo pasar a arreglo"
+{
+    FILE* fp;
+    fp = fopen(RECETAS,"rb");
+    if(fp != NULL){
+        fread(resetass,sizeof(Receta),cantEle,fp);
+        if(fclose(fp) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
 
+}
+
+void despersistenciaDemanda(Preparacion stock[50], int cantEle){
+    FILE* fp;
+    fp = fopen(DEMANDA,"rb");
+    if(fp != NULL){
+        fread(stock,sizeof(Preparacion),cantEle,fp);
+        if(fclose(fp) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
+
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
+
+}
+
+ //paso 2
+void mostrarStock(StockIngrediente ingredientes[50],int cant){
+    for(int i = 0;i<cant;i++){
+        printf("%s %.2f %s %.2f \n",ingredientes[i].nombre_ingrediente,ingredientes[i].cantidad,ingredientes[i].tipo,ingredientes[i].costo);
+    }
+}
+
+void mostrarRecetas(Receta arr[20],int val){
+    for(int i = 0;i<val;i++){
+        printf("%s \n", arr[i].nombre_preparacion);
+        for(int r = 0;r<arr[i].cantIngredientes;r++){
+         printf("%s %.2f \n",arr[i].ingredientes[r].nombre_ingrediente , arr[i].ingredientes[r].cantidad);
+        }
+        printf("%i \n",arr[i].cantIngredientes);
+        printf("------------------------------------------------------------------------------------\n");
+    }
+
+}
+int comprobarStockParaPedido(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],int indiceRecetario){
+    int estadoPedidos = 0;
+    int ingredientesSuficientes = 0;
+    
+    for(int i = 0;i<recetario[indiceRecetario].cantIngredientes;i++){
+        int u = 0;
+        while(strcmp(recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente) != 0){
+            u++;
+        }
+        //printf(" receta %s stock %s\n",recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente);
+        if(recetario[indiceRecetario].ingredientes[i].cantidad <= stock[u].cantidad){
+            ingredientesSuficientes++;
+            //stock[u].cantidad = stock[u].cantidad - recetario[indiceRecetario].ingredientes[i].cantidad;
+        }
+    }
+    if (recetario[indiceRecetario].cantIngredientes == ingredientesSuficientes){
+        estadoPedidos = 1;
+    }
+
+    return estadoPedidos;
+}
+
+void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],int indiceRecetario){
+    for(int i = 0;i<recetario[indiceRecetario].cantIngredientes;i++){
+        int u = 0;
+        while(strcmp(recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente) != 0){
+            u++;
+        }
+
+        if(recetario[indiceRecetario].ingredientes[i].cantidad <= stock[u].cantidad){
+            stock[u].cantidad = stock[u].cantidad - recetario[indiceRecetario].ingredientes[i].cantidad;
+            //printf("se usaron %f %s \n",recetario[indiceRecetario].ingredientes[i].cantidad ,recetario[indiceRecetario].ingredientes[i].nombre_ingrediente);
+        }
+    }
 
 
 }
 
-//Paso 2
+int RecetaDelPedido(Preparacion orden,Receta arr[20]){
+    int indice = 0;
+    while(strcmp(orden.nombre_preparacion,arr[indice].nombre_preparacion) != 0){
+        indice++;
+
+    }
+    printf(" el pedido es %s %i \n",orden.nombre_preparacion, orden.cantidad);
+    printf("%s \n", arr[indice].nombre_preparacion);
+    for(int r = 0;r<arr[indice].cantIngredientes;r++){
+        printf("%s %.2f \n",arr[indice].ingredientes[r].nombre_ingrediente , arr[indice].ingredientes[r].cantidad);
+    }
+    //printf("%i \n",arr[indice].cantIngredientes);
+    printf("receta encontrada\n") ;
+    printf("------------------------------------------------------------------------------------\n");
+
+    return indice;
+}
+
+
+
+
+
+ 
 
 
 //Paso 3
