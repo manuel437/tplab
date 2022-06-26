@@ -289,8 +289,33 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
 
 
 //Paso 3
+/*void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
+{
+    char s;
+    int pos=0;
+    FILE* precios;
+    precios=fopen(precios, "ab");
+    if(precios != NULL){
+        if(fclose(precios) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
 
-
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
+    
+    do
+    {
+        printf("ingrese una preparacion a buscar\n");
+        scanf("%i",&pos);
+        fseek(precios,0,1);
+        puts(nombre_preparacion[pos]);
+        printf("ingrese un precio de venta\n");
+        scanf("%f", &PrecioPreparacion.precio_venta);
+        printf(" 's' para buscar otra preparacion\n")
+    }while(s=='s');
+}
+*/
 //Paso 4
 
 
