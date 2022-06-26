@@ -16,10 +16,6 @@ typedef struct
   float costo; ///costo por kg o por litro según corresponda
 }StockIngrediente;
 
-int cantDatosArch(int,char[]);
-void persistenciaStockIngre(StockIngrediente[50], int);
- 
-
 //Paso 2
 typedef struct
  {
@@ -80,9 +76,7 @@ void despersistenciaDemanda(Preparacion stock[50], int cantEle);
 //paso 2
 void mostrarStock(StockIngrediente[50],int);
 void mostrarRecetas(Receta[20],int);
-void cocinar(Preparacion,StockIngrediente[],Receta[20],int);
-int comprobarStockParaPedido(Preparacion,StockIngrediente[],Receta[20],int);
-int RecetaDelPedido(Preparacion,Receta[20]);
+ 
 
 
 
@@ -181,61 +175,7 @@ void mostrarRecetas(Receta arr[20],int val){
     }
 
 }
-int comprobarStockParaPedido(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],int indiceRecetario){
-    int estadoPedidos = 0;
-    int ingredientesSuficientes = 0;
-    
-    for(int i = 0;i<recetario[indiceRecetario].cantIngredientes;i++){
-        int u = 0;
-        while(strcmp(recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente) != 0){
-            u++;
-        }
-        //printf(" receta %s stock %s\n",recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente);
-        if(recetario[indiceRecetario].ingredientes[i].cantidad <= stock[u].cantidad){
-            ingredientesSuficientes++;
-            //stock[u].cantidad = stock[u].cantidad - recetario[indiceRecetario].ingredientes[i].cantidad;
-        }
-    }
-    if (recetario[indiceRecetario].cantIngredientes == ingredientesSuficientes){
-        estadoPedidos = 1;
-    }
 
-    return estadoPedidos;
-}
-
-void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],int indiceRecetario){
-    for(int i = 0;i<recetario[indiceRecetario].cantIngredientes;i++){
-        int u = 0;
-        while(strcmp(recetario[indiceRecetario].ingredientes[i].nombre_ingrediente,stock[u].nombre_ingrediente) != 0){
-            u++;
-        }
-
-        if(recetario[indiceRecetario].ingredientes[i].cantidad <= stock[u].cantidad){
-            stock[u].cantidad = stock[u].cantidad - recetario[indiceRecetario].ingredientes[i].cantidad;
-            //printf("se usaron %f %s \n",recetario[indiceRecetario].ingredientes[i].cantidad ,recetario[indiceRecetario].ingredientes[i].nombre_ingrediente);
-        }
-    }
-
-
-}
-
-int RecetaDelPedido(Preparacion orden,Receta arr[20]){
-    int indice = 0;
-    while(strcmp(orden.nombre_preparacion,arr[indice].nombre_preparacion) != 0){
-        indice++;
-
-    }
-    printf(" el pedido es %s %i \n",orden.nombre_preparacion, orden.cantidad);
-    printf("%s \n", arr[indice].nombre_preparacion);
-    for(int r = 0;r<arr[indice].cantIngredientes;r++){
-        printf("%s %.2f \n",arr[indice].ingredientes[r].nombre_ingrediente , arr[indice].ingredientes[r].cantidad);
-    }
-    //printf("%i \n",arr[indice].cantIngredientes);
-    printf("receta encontrada\n") ;
-    printf("------------------------------------------------------------------------------------\n");
-
-    return indice;
-}
 
 
 
