@@ -79,6 +79,7 @@ void mostrarRecetas(Receta[20],int);
 void cocinar(Preparacion,StockIngrediente[],Receta[20],int,int);
 int comprobarStockParaPedido(Preparacion,StockIngrediente[],Receta[20],int);
 int recetaDelPedido(Preparacion,Receta[20]);
+void pasePreparacionAPreparacionVenta(Preparacion,PreparacionVenta,int);
 
 void persistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 void despersistenciaPreparadosParaVenta(PreparacionVenta[50],int);
@@ -265,7 +266,10 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
 }
 
- 
+ void pasePreparacionAPreparacionVenta(Preparacion aPasar,PreparacionVenta esto,int cocinados){
+    strcpy(esto.nombre_preparacion,aPasar.nombre_preparacion);
+    esto.cantidad = cocinados;
+}
 
 
 
