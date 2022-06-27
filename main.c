@@ -291,11 +291,18 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
 //Paso 3
 /*void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
 {
+  /*
+    abris el archivo y lo cerras sin usarlo para nada, ademas se pide:
+    "leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos 
+    a empezar la venta hacia el cliente final y debemos utilizar el precio."
+    asi que habria que usar un arreglo paralelo a stock venta en vez del archivo
+  */  
     char s;
     int pos=0;
     FILE* precios;
-    precios=fopen(precios, "ab");
+    precios=fopen(precios, "ab"); //seria fopen("precios.bin","ab"); no se si hiciste una constante con el nombre precios
     if(precios != NULL){
+        //nada
         if(fclose(precios) != 0){
             printf("- fallo al cerrar el archivo\n");
         }
@@ -305,11 +312,11 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
     }
     
     do
-    {
+    { // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
-        fseek(precios,0,1);
-        puts(nombre_preparacion[pos]);
+        fseek(precios,0,1); //cerraste el archivo asi que no sirve para nada
+        puts(nombre_preparacion[pos]); 
         printf("ingrese un precio de venta\n");
         scanf("%f", &PrecioPreparacion.precio_venta);
         printf(" 's' para buscar otra preparacion\n")
