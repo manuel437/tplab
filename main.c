@@ -289,14 +289,15 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
 
 
 //Paso 3
-/*void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
-{
+
+//void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad){
   /*
     abris el archivo y lo cerras sin usarlo para nada, ademas se pide:
     "leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos 
     a empezar la venta hacia el cliente final y debemos utilizar el precio."
     asi que habria que usar un arreglo paralelo a stock venta en vez del archivo
   */  
+/*
     char s;
     int pos=0;
     FILE* precios;
