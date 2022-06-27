@@ -79,7 +79,7 @@ void mostrarRecetas(Receta[20],int);
 void cocinar(Preparacion,StockIngrediente[],Receta[20],int,int);
 int comprobarStockParaPedido(Preparacion,StockIngrediente[],Receta[20],int);
 int recetaDelPedido(Preparacion,Receta[20]);
-void paseDemandaaArchivoStockVenta(int,Preparacion);
+
 void persistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 void despersistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 
@@ -265,21 +265,7 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
 }
 
-void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
-    PreparacionVenta aGuardar;
-    strcpy(aGuardar.nombre_preparacion,pedido.nombre_preparacion);
-    aGuardar.cantidad = cocinados;
-    FILE* fp;
-    fp = fopen(STOCK_VENTA,"ab");
-    if(fp != NULL){
-        fwrite(&aGuardar,sizeof(PreparacionVenta),1,fp);
-        if(fclose(fp) != 0){
-            printf("- fallo al cerrar el archivo\n");
-        }
-    }else{
-        printf("- fallo al abrir el archivo\n");
-    }
-}
+ 
 
 
 
@@ -295,7 +281,7 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
     abris el archivo y lo cerras sin usarlo para nada, ademas se pide:
     "leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos 
     a empezar la venta hacia el cliente final y debemos utilizar el precio."
-    asi que habria que usar un arreglo paralelo a stock venta en vez del archivo
+    asi que habria que usar un arreglo paralelo a stock venta en vez del archivo para usar, y tener una funcion persistencia precios para guardar la info
   */  
 /*
     char s;
@@ -316,7 +302,7 @@ void paseDemandaaArchivoStockVenta(int cocinados,Preparacion pedido){
     { // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
-        fseek(precios,0,1); //cerraste el archivo asi que no sirve para nada
+        fseek(precios,0,1); //cerraste el archivo asi que no sirve para nada 
         puts(nombre_preparacion[pos]); 
         printf("ingrese un precio de venta\n");
         scanf("%f", &PrecioPreparacion.precio_venta);
