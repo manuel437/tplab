@@ -303,7 +303,7 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
         fseek(precios,0,1); //cerraste el archivo asi que no sirve para nada 
-        puts(nombre_preparacion[pos]); 
+        puts(nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
         printf("ingrese un precio de venta\n");
         scanf("%f", &PrecioPreparacion.precio_venta);
         printf(" 's' para buscar otra preparacion\n")
