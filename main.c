@@ -6,6 +6,7 @@
 #define DEMANDA "demanda.bin"
 #define RECETAS "recetas.bin"
 #define STOCK_VENTA "stockventa.bin"
+#define PRECIOS "precios.bin"
 
 //Paso 1
 typedef struct
@@ -301,6 +302,23 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
    persistenciaPrecios(precios, validos);
 }
+void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
+{
+    FILE* fp;
+    fp = fopen(PRECIOS,"rb");
+    if(fp != NULL)
+    {
+        fread(precios,sizeof(PreciosPreparacion),validos ,fp);
+        if(fclose(fp) != 0)
+        {
+            printf("- fallo al cerrar el archivo\n");
+        }
+    }
+    else
+    {
+        printf("- fallo al abrir el archivo\n");
+    }
+}
 
 void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
@@ -324,11 +342,13 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
 {
     char s;
     int pos=0;
+    FILE* fp;
+    fp = fopen(RECETAS,"wb");
     do
     {
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
-        fseek(precios,pos); //arreglar parametros
+        fseek(RECETAS,0,pos); //arreglar parametros
         puts(nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
         printf("ingrese un precio de venta\n");
         scanf("%f", &PrecioPreparacion.precio_venta);
@@ -337,6 +357,7 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
         scanf("%c", &s);
     }
     while(s=='s');
+    fclose(RECETAS);
 }
 */
 //Paso 4
