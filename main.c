@@ -280,38 +280,63 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
 //Paso 3
 
-//void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad){
-  /*
-    abris el archivo y lo cerras sin usarlo para nada, ademas se pide:
-    "leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos 
-    a empezar la venta hacia el cliente final y debemos utilizar el precio."
-    asi que habria que usar un arreglo paralelo a stock venta en vez del archivo para usar, y tener una funcion persistencia precios para guardar la info
-  */  
-/*
+
+//Paso 3
+
+//void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
+{
+    /*"leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos
+      a empezar la venta hacia el cliente final y debemos utilizar el precio."
+      asi que habria que usar un arreglo paralelo a stock venta en vez del archivo para usar, y tener una funcion persistencia precios para guardar la info
+    */
     char s;
-    int pos=0;
-    FILE* precios;
-    precios=fopen(precios, "ab"); //seria fopen("precios.bin","ab"); no se si hiciste una constante con el nombre precios
-    if(precios != NULL){
-        //nada
-        if(fclose(precios) != 0){
+    nombre_preparacion=despersistenciaPrecios(precios, validos);
+     // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
+    printf("'s' para modificar precios\n");
+    fflush(stdin);
+    scanf("%c", &s);
+    if(s=='s'){
+    modPrecios(precios, validos);
+    }
+
+   persistenciaPrecios(precios, validos);
+}
+
+void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
+{
+    FILE* fp;
+    fp = fopen("precios.bin","rb");
+    if(fp != NULL)
+    {
+        fread(precios,sizeof(PreciosPreparacion),validos ,fp);
+        if(fclose(fp) != 0)
+        {
             printf("- fallo al cerrar el archivo\n");
         }
-
-    }else{
+    }
+    else
+    {
         printf("- fallo al abrir el archivo\n");
     }
-    
+}
+
+void modPrecios(PrecioPreparacion precios[50], int validos)
+{
+    char s;
+    int pos=0;
     do
-    { // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
+    {
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
-        fseek(precios,0,1); //cerraste el archivo asi que no sirve para nada 
+        fseek(precios,pos); //arreglar parametros
         puts(nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
         printf("ingrese un precio de venta\n");
         scanf("%f", &PrecioPreparacion.precio_venta);
         printf(" 's' para buscar otra preparacion\n")
-    }while(s=='s');
+        fflush(stdin);
+        scanf("%c", &s);
+    }
+    while(s=='s');
 }
 */
 //Paso 4
