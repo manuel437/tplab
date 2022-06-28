@@ -14,7 +14,7 @@ typedef struct
   char nombre_ingrediente[20];
   float cantidad;  //en kg o en litro segun el tipo de ingrediente
   char tipo[20]; /// "liquido" "solido"
-  float costo; ///costo por kg o por litro segÃºn corresponda
+  float costo; ///costo por kg o por litro según corresponda
 }StockIngrediente;
 
 //Paso 2
@@ -64,7 +64,7 @@ typedef struct
   float valor_total; ///valor total a pagar
 }Venta;
 
- 
+
 //prototipados-------------------------------------------------------------------------------------------------------------
 //archivos
 int cantDatosArch(int,char[]);
@@ -73,7 +73,7 @@ void persistenciaStockIngre(StockIngrediente stock[50], int validos);
 
 void despersistenciaRecetas(Receta resetass[20], int cantEle);
 void despersistenciaDemanda(Preparacion stock[50], int cantEle);
-  
+
 //paso 2
 void mostrarStock(StockIngrediente[50],int);
 void mostrarRecetas(Receta[20],int);
@@ -95,7 +95,7 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
         fseek(arch,0,2);
         cant = ftell(arch)/(tamanioDato);
         if(fclose(arch) != 0){
-            printf("- archivo cerrado fun cantDatos\n")   
+            printf("- archivo cerrado fun cantDatos\n")
         }
     }else{
         printf("- no se pudo abrir el archivo fun cantDatos\n");
@@ -276,7 +276,7 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
 
 
- 
+
 
 
 //Paso 3
@@ -367,20 +367,75 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
 }
 */
 //Paso 4
+//Prototipados------------------------------------------------------------------------------
+void cargarReceta(Receta);
+void IngresarReceta(Receta[], int*);
+void agregarIngrediente(Receta[], int);
+
+//Funciones------------------------------------------------------------------------
+ void cargarReceta(Receta a){
+     char continuar;
+int i=0;
+printf("Ingrese el nombre de la receta: ");
+fflush(stdin);
+gets((a).nombre_preparacion);
+fflush(stdin);
+printf("Ingrese la cantidad de ingredientes: ");
+fflush(stdin);
+scanf("%i", (a).cantIngredientes);
+printf("Ingrese los ingredientes: ");
+do{
+    fflush(stdin);
+    gets((a.ingredientes[i]).nombre_ingrediente);
+    printf("Ingrese la cantidad necesaria de este ingrediente: ");
+    scanf("%f", (a.ingredientes[i]).cantidad);
+    printf("Desea ingresar otro ingrediente? ");
+    fflush(stdin);
+    scanf("%c", continuar);
+}while(i<20 && continuar == 's');
+
+}
+
+void IngresarRecetas(Receta recetass[], int* cant_ele){
+    int i = 0;
+    char continuar;
+    do{
+        cargarReceta(recetass[i]);
+        printf("Desea ingresar otra receta? S/N ");
+        fflush(stdin);
+        scanf("%c", continuar);
+        i++;
+    }while(i<20 && continuar == 's');
+    *cant_ele = i;
+
+}
+
+void agregarIngrediente(Receta recetass[], int cant_ele){
+char nombre[20];
+int i = 0;
+printf("Ingrese el nombre de la receta a modificar. ");
+fflush(stdin);
+gets(nombre);
+while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion, nombre) != 0){
+    i++;
+}
+recetass[i].cantIngredientes += 1;
+int b = recetass[i].cantIngredientes;
+printf("Ingrese el ingrediente que quiere agregar. ");
+fflush(stdin);
+gets(recetass[i].ingredientes[b].nombre_ingrediente);
+printf("Ingrese la cantidad necesaria del ingrediente. ");
+fflush(stdin);
+gets(recetass[i].ingredientes[b].nombre_ingrediente);
+}
 
 
+int main(){
+    Receta r;
+    int cant_elem=0;
+Receta resetass[20];
+cargarReceta(r);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+return 0;
+}
 
