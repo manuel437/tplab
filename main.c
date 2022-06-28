@@ -320,13 +320,13 @@ void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
     }
 }
 
-void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
+void persistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
     FILE* fp;
-    fp = fopen("precios.bin","rb");
+    fp = fopen("precios.bin","wb");
     if(fp != NULL)
     {
-        fread(precios,sizeof(PreciosPreparacion),validos ,fp);
+        fwrite(precios,sizeof(PreciosPreparacion),validos ,fp);
         if(fclose(fp) != 0)
         {
             printf("- fallo al cerrar el archivo\n");
@@ -357,7 +357,13 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
         scanf("%c", &s);
     }
     while(s=='s');
-    fclose(RECETAS);
+     if(fclose(fp) != 0){
+            printf("- fallo al cerrar el archivo\n");
+        }
+
+    }else{
+        printf("- fallo al abrir el archivo\n");
+    }
 }
 */
 //Paso 4
