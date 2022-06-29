@@ -14,7 +14,7 @@ typedef struct
   char nombre_ingrediente[20];
   float cantidad;  //en kg o en litro segun el tipo de ingrediente
   char tipo[20]; /// "liquido" "solido"
-  float costo; ///costo por kg o por litro segÃºn corresponda
+  float costo; ///costo por kg o por litro según corresponda
 }StockIngrediente;
 
 //Paso 2
@@ -36,6 +36,7 @@ typedef struct
    char nombre_preparacion[20];
    IngredienteXReceta ingredientes[20]; ///Puede tener hasta 20 ingredientes
    int cantIngredientes; ///los validos de ingredientes
+   int baja;
  }Receta;
 
  typedef struct
@@ -95,7 +96,7 @@ int cantDatosArch(int tamanioDato,char nombreArch[]){
         fseek(arch,0,2);
         cant = ftell(arch)/(tamanioDato);
         if(fclose(arch) != 0){
-            printf("- archivo cerrado fun cantDatos\n")
+            printf("- archivo cerrado fun cantDatos\n");
         }
     }else{
         printf("- no se pudo abrir el archivo fun cantDatos\n");
@@ -285,11 +286,11 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 //Paso 3
 
 //void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
-{
+
     /*"leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos
       a empezar la venta hacia el cliente final y debemos utilizar el precio."
       asi que habria que usar un arreglo paralelo a stock venta en vez del archivo para usar, y tener una funcion persistencia precios para guardar la info
-    */
+    *//*
     char s;
     nombre_preparacion=despersistenciaPrecios(precios, validos);
      // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
@@ -301,7 +302,7 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
     }
 
    persistenciaPrecios(precios, validos);
-}
+} */
 void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
     FILE* fp;
@@ -365,45 +366,49 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
         printf("- fallo al abrir el archivo\n");
     }
 }
-*/
+
 //Paso 4
 //Prototipados------------------------------------------------------------------------------
 void cargarReceta(Receta);
-void IngresarReceta(Receta[], int*);
+void IngresarRecetas(Receta[], int*);
 void agregarIngrediente(Receta[], int);
+void bajaReceta(Receta[], int);
+void ordenarXNombre(Receta[], int);
+void Submenu(Receta[], int);
 
 //Funciones------------------------------------------------------------------------
  void cargarReceta(Receta a){
      char continuar;
 int i=0;
-printf("Ingrese el nombre de la receta: \n");
+printf("Ingrese el nombre de la receta: ");
 fflush(stdin);
 gets((a).nombre_preparacion);
 fflush(stdin);
-printf("Ingrese la cantidad de ingredientes:\n ");
+printf("Ingrese la cantidad de ingredientes: ");
 fflush(stdin);
 scanf("%i", (a).cantIngredientes);
-printf("Ingrese los ingredientes: \n");
+printf("Ingrese los ingredientes: ");
 do{
     fflush(stdin);
     gets((a.ingredientes[i]).nombre_ingrediente);
-    printf("Ingrese la cantidad necesaria de este ingrediente: \n");
+    printf("Ingrese la cantidad necesaria de este ingrediente: ");
     scanf("%f", (a.ingredientes[i]).cantidad);
-    printf("Desea ingresar otro ingrediente? \n");
+    printf("Desea ingresar otro ingrediente? ");
     fflush(stdin);
     scanf("%c", continuar);
 }while(i<20 && continuar == 's');
+(a).baja = 0;
 
 }
 
-void IngresarRecetas(Receta recetass[], int* cant_ele){ //recetass[20]
-    int i = 0; //int i = (*cant_ele);
+void IngresarRecetas(Receta recetass[], int* cant_ele){
+    int i = 0;
     char continuar;
-    do{ //mejor usa un while, si el arreglo estuviera lleno el do while sobreescribiria el ultimo espacio del arreglo
+    do{
         cargarReceta(recetass[i]);
-        printf("Desea ingresar otra receta? S/N \n");
+        printf("Desea ingresar otra receta? S/N ");
         fflush(stdin);
-        scanf("%c", &continuar);
+        scanf("%c", continuar);
         i++;
     }while(i<20 && continuar == 's');
     *cant_ele = i;
@@ -413,7 +418,7 @@ void IngresarRecetas(Receta recetass[], int* cant_ele){ //recetass[20]
 void agregarIngrediente(Receta recetass[], int cant_ele){
 char nombre[20];
 int i = 0;
-printf("Ingrese el nombre de la receta a modificar. \n");
+printf("Ingrese el nombre de la receta a modificar. ");
 fflush(stdin);
 gets(nombre);
 while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion, nombre) != 0){
@@ -421,20 +426,76 @@ while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion, nombre) != 0){
 }
 recetass[i].cantIngredientes += 1;
 int b = recetass[i].cantIngredientes;
-printf("Ingrese el ingrediente que quiere agregar. \n");
+printf("Ingrese el ingrediente que quiere agregar. ");
 fflush(stdin);
 gets(recetass[i].ingredientes[b].nombre_ingrediente);
-printf("Ingrese la cantidad necesaria del ingrediente. \n");
+printf("Ingrese la cantidad necesaria del ingrediente. ");
 fflush(stdin);
 gets(recetass[i].ingredientes[b].nombre_ingrediente);
 }
 
+void bajaReceta(Receta recetass[], int cant_ele){
+char nombre[20];
+int i = 0;
+printf("Ingrese el nombre de la receta a dar de baja: ");
+fflush(stdin);
+gets(nombre);
+while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion,nombre) != 0){
+    i++;
+}
+if(strcmpi(recetass[i].nombre_preparacion,nombre) == 0){
+    recetass[i].baja = 1;
+}
+else{
+    printf("No se encontro la receta indicada. ");
+}
+
+}
+
+void ordenarXNombre(Receta recetass[], int cant_ele){
+    int i = cant_ele-1;
+    while(i>=0 && strcmpi(recetass[i].nombre_preparacion, recetass[i-1].nombre_preparacion) > 0){
+        recetass[i-1] = recetass[i];
+        i--;
+    }
+}
+
+void Submenu(Receta recetass[], int cant_ele){
+    int opcion;
+printf("Bienvenido al Submenu de Recetas \n");
+printf("1- Ingresar Recetas. \n");
+printf("2- Agregar Ingredientes. \n");
+printf("3- Baja Receta. \n");
+printf("4- Ordenar por Nombre. \n");
+printf("0- Salir. \n");
+printf("Ingrese la accion que quiera ejecutar: ");
+fflush(stdin);
+scanf("%i", opcion);
+if(opcion==1){
+    IngresarRecetas(recetass, cant_ele);
+}
+else if(opcion==2){
+    agregarIngrediente(recetass, cant_ele);
+}
+else if(opcion==3){
+    bajaReceta(recetass, cant_ele);
+}
+else if(opcion==4){
+    ordenarXNombre(recetass, cant_ele);
+}
+else{
+    printf("Ingrese una opcion valida: ");
+    fflush(stdin);
+    scanf("%i", opcion);
+}
+
+}
 
 int main(){
     Receta r;
     int cant_elem=0;
 Receta resetass[20];
-cargarReceta(r);
+Submenu(resetass, cant_elem);
 
 return 0;
 }
