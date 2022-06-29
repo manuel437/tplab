@@ -366,8 +366,47 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
         printf("- fallo al abrir el archivo\n");
     }
 }
-
 //Paso 4
+//Prototipados------------------------------------------------------------------------------
+void remanenteStock(StockIngrediente[], int);
+void listaPreparados(Preparacion[], int);
+void ingresoTotal(Venta[], int);
+void gananciaDia()
+
+
+//Funciones---------------------------------------------------------------------------------
+void remanenteStock(StockIngrediente remanente[],int cant_ele){
+StockIngrediente stock[20];
+int j = 0;
+for(int i=0 ; i<cant_ele ; i++){
+    if(remanente[i].cantidad>0){
+    stock[j] = remanente[i];
+    j++;}
+}
+mostrarStock(stock, cant_ele);
+persistenciaStockIngre(stock,cant_ele);
+}
+
+void listaPreparados(Preparacion preparaciones[], int cant_ele){
+for(int i=0 ; i<cant_ele ; i++){
+    puts(preparaciones[i].nombre_preparacion);
+    printf(" \n");
+    printf("%i \n", preparaciones[i].cantidad);
+}
+}
+
+void ingresoTotal(Venta ventas[], int cant_ventas){
+    float ingreso = 0;
+for(int i=0 ; i<cant_ventas ; i++){
+    ingreso += ventas[i].valor_total;
+}
+printf("El ingreso total es de %f",ingreso);
+
+}
+
+
+
+//Paso 5
 //Prototipados------------------------------------------------------------------------------
 void cargarReceta(Receta);
 void IngresarRecetas(Receta[], int*);
@@ -491,12 +530,5 @@ else{
 
 }
 
-int main(){
-    Receta r;
-    int cant_elem=0;
-Receta resetass[20];
-Submenu(resetass, cant_elem);
 
-return 0;
-}
 
