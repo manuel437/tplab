@@ -279,36 +279,31 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
  
 
 
-//Paso 3
-
 
 //Paso 3
 
-//void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
+void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
 {
-    /*"leerlo completo y dejarlo en memoria listo en una estructura de datos adecuada, ya que luego vamos
-      a empezar la venta hacia el cliente final y debemos utilizar el precio."
-      asi que habria que usar un arreglo paralelo a stock venta en vez del archivo para usar, y tener una funcion persistencia precios para guardar la info
-    */
     char s;
     nombre_preparacion=despersistenciaPrecios(precios, validos);
-     // estaria bueno aca una funcion que muestre una lista con las posiciones,nombre preparaciones para venta y cantidad hecha
+    mostrarPrecioPreparacion(precios[20],cantidad);
     printf("'s' para modificar precios\n");
     fflush(stdin);
     scanf("%c", &s);
-    if(s=='s'){
-    modPrecios(precios, validos);
+    if(s=='s')
+    {
+        modificacionPrecios(precios, validos);
     }
-
-   persistenciaPrecios(precios, validos);
+    persistenciaPrecios(precios, validos);
 }
+
 void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
     FILE* fp;
     fp = fopen(PRECIOS,"rb");
     if(fp != NULL)
     {
-        fread(precios,sizeof(PreciosPreparacion),validos ,fp);
+        fread(precios,sizeof(PreciosPreparacion),validos,fp);
         if(fclose(fp) != 0)
         {
             printf("- fallo al cerrar el archivo\n");
@@ -323,10 +318,10 @@ void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
 void persistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
     FILE* fp;
-    fp = fopen("precios.bin","wb");
+    fp = fopen(PRECIOS,"wb");
     if(fp != NULL)
     {
-        fwrite(precios,sizeof(PreciosPreparacion),validos ,fp);
+        fwrite(precios,sizeof(PreciosPreparacion),validos,fp);
         if(fclose(fp) != 0)
         {
             printf("- fallo al cerrar el archivo\n");
@@ -338,34 +333,99 @@ void persistenciaPrecios(PrecioPreparacion precios[50], int validos)
     }
 }
 
-void modPrecios(PrecioPreparacion precios[50], int validos)
+void modificarPrecios(PrecioPreparacion precios[50], int validos)
 {
     char s;
     int pos=0;
+    PrecioPreparacion p;
+    char preparacion[10];
     FILE* fp;
-    fp = fopen(RECETAS,"wb");
+    fp = fopen(PRECIOS,"r+b");
     do
     {
         printf("ingrese una preparacion a buscar\n");
-        scanf("%i",&pos);
-        fseek(RECETAS,0,pos); //arreglar parametros
-        puts(nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
-        printf("ingrese un precio de venta\n");
-        scanf("%f", &PrecioPreparacion.precio_venta);
-        printf(" 's' para buscar otra preparacion\n")
         fflush(stdin);
-        scanf("%c", &s);
+        gets(preparacion);
+        if (fp != NULL)
+        {
+            fread(&p,sizeof(PrecioPreparacion),1,fp);
+            while ( i < validos && strcmpi(p.precio_venta, preparacion) != 0)
+            {
+                i++;
+                fread(&p,sizeof(Persona),1,fp);
+            }
+            if (i < validos)
+            {
+                mostrarPrecioPreparacion(precios[20], cantidad)
+                printf("ingrese el monto a modificar\n");
+                scanf("%f", &PrecioPreparacion.precio_venta);
+                fseek(fp,sizeof(PrecioPreparacion*-1),1); //revisar
+                fwrite(&p,sizeof(PrecioPreparacion),1,fp);
+                printf(" 's' para buscar otra preparacion\n")
+                fflush(stdin);
+                scanf("%c", &s);
+            }
+        }
     }
     while(s=='s');
-     if(fclose(fp) != 0){
-            printf("- fallo al cerrar el archivo\n");
-        }
+}
 
-    }else{
-        printf("- fallo al abrir el archivo\n");
+void mostrarPrecioPreparacion(PreparacionVenta precios[20],int cantidad)
+{
+    for(int i = 0; i<cantidad; i++)
+    {
+        printf("%s \n", prec[i].nombre_preparacion);
+        printf("%i \n",prec[i].cantidad);
+        printf("------------------------------------------------------------------------------------\n");
+    }
+
+}
+
+void bajaVenta(char nombre_preparacion[20], int cantidad)
+{
+    char nombrePreparacion[20];
+    FILE* fp;
+    fp = fopen("precios.bin","r+b");
+    int cantPreparaciones = cantidad;
+    int i = 0;
+    if (fp != NULL)
+    {
+        printf("ingrese preparacion a dar de baja\n");
+        gets(nombrePreparacion);
+        fread(precios,sizeof(PreparacionVenta),1,fp);
+        while ( i < cantPreparaciones && strcmpi(nombrePreparacion, PreparacionVenta.nombre_preparacion) != 0)//cambiar x id venta
+        {
+            i++;
+            fread(precios,sizeof(PreparacionVenta),1,fp);
+        }
+        if (i < cantPreparaciones)
+        {
+            p.baja = 1; //doy de baja la persona // MODIFICAR (?)
+            fseek(fp,sizeof(Persona)*(-1),SEEK_CUR);
+            fwrite(&p,sizeof(Persona),1,fp);
+
+        }
+        fclose(fp);
     }
 }
-*/
+
+void CargaArchivoVentas(char ventas[50], int cantItems)
+{
+    Venta v;
+    FILE* fp;
+    fp = fopen(VENTAS,"ab");
+    if (fp != NULL)
+    {
+         for(int i=0;i<cantItems;i++)
+         {
+             fwrite(ventas,sizeof(Venta),1,fp);
+         }
+    }
+ fclose(VENTAS);
+}
+//Pendiente: constantes, prototipados, revisar
+
+
 //Paso 4
 
 
