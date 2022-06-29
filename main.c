@@ -423,7 +423,7 @@ void CargaArchivoVentas(char ventas[50], int cantItems)
     }
  fclose(VENTAS);
 }
-//Pendiente: constantes, prototipados, revisar
+//Pendiente: prototipados, revisar
 
 
 //Paso 4
