@@ -8,6 +8,10 @@
 #define STOCK_VENTA "stockventa.bin"
 #define PRECIOS "precios.bin"
 
+
+
+
+
 //Paso 1
 typedef struct
 {
@@ -84,6 +88,18 @@ void pasePreparacionAPreparacionVenta(Preparacion,PreparacionVenta,int);
 
 void persistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 void despersistenciaPreparadosParaVenta(PreparacionVenta[50],int);
+
+//paso 2
+void cargarTodosLosPrecios(PrecioPreparacion [], Receta[],int);
+void persistenciaPrecios(PrecioPreparacion [], int);
+void despersistenciaPrecios(PrecioPreparacion [], int* );
+void mostrarUnPrecio(PrecioPreparacion);
+void mostrarTodosLosPrecios(PrecioPreparacion [], int* );
+void modificarUnPrecio(PrecioPreparacion [], int );
+void registrarUnaVenta(PreparacionVenta [], Venta*, PrecioPreparacion [], int);
+void registrarVariasVentas(PreparacionVenta [],Venta [],PrecioPreparacion [],int*,int*);
+void persistenciaVentas(Venta [], int);
+void despersistenciaVentas(Venta [], int*);
 
 
 //funciones---------------------------------------------------------------------
@@ -282,147 +298,221 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
 
 //Paso 3
 
-void cargarPrecios(char nombre_preparacion[20], float precio_venta, int cantidad)
+void cargarTodosLosPrecios(PrecioPreparacion precios_venta[], Receta nombre_preparacion[20], int cantidad)
 {
-    char s;
-    nombre_preparacion=despersistenciaPrecios(precios, validos);
-    mostrarPrecioPreparacion(precios[20],cantidad);
-    printf("'s' para modificar precios\n");
-    fflush(stdin);
-    scanf("%c", &s);
-    if(s=='s')
+    for(int i=0; i<validosRecetas; i++)
     {
-        modificacionPrecios(precios, validos);
+        strcpy(precios[i].nombre_preparacion,nombre_preparacion[i].nombre_preparacion);
+        printf("Ingrese el precio de %s:", precios[i].nombre_preparacion);
+        scanf("%f", &precios[i].precio_venta);
     }
-    persistenciaPrecios(precios, validos);
+
+    persistenciaPrecios(precios_venta,validosRecetas);
 }
 
-void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
+void persistenciaPrecios(PrecioPreparacion precios[], int validos)
 {
-    FILE* fp;
-    fp = fopen(PRECIOS,"rb");
-    if(fp != NULL)
-    {
-        fread(precios,sizeof(PreciosPreparacion),validos,fp);
-        if(fclose(fp) != 0)
-        {
-            printf("- fallo al cerrar el archivo\n");
-        }
-    }
-    else
-    {
-        printf("- fallo al abrir el archivo\n");
-    }
-}
-
-void persistenciaPrecios(PrecioPreparacion precios[50], int validos)
-{
-    FILE* fp;
-    fp = fopen(PRECIOS,"wb");
-    if(fp != NULL)
-    {
-        fwrite(precios,sizeof(PreciosPreparacion),validos,fp);
-        if(fclose(fp) != 0)
-        {
-            printf("- fallo al cerrar el archivo\n");
-        }
-    }
-    else
-    {
-        printf("- fallo al abrir el archivo\n");
-    }
-}
-
-void modificarPrecios(PrecioPreparacion precios[50], int validos)
-{
-    char s;
-    int pos=0;
-    PrecioPreparacion p;
-    char preparacion[10];
-    FILE* fp;
-    fp = fopen(PRECIOS,"r+b");
-    do
-    {
-        printf("ingrese una preparacion a buscar\n");
-        fflush(stdin);
-        gets(preparacion);
-        if (fp != NULL)
-        {
-            fread(&p,sizeof(PrecioPreparacion),1,fp);
-            while ( i < validos && strcmpi(p.precio_venta, preparacion) != 0)
-            {
-                i++;
-                fread(&p,sizeof(Persona),1,fp);
-            }
-            if (i < validos)
-            {
-                mostrarPrecioPreparacion(precios[20], cantidad)
-                printf("ingrese el monto a modificar\n");
-                scanf("%f", &PrecioPreparacion.precio_venta);
-                fseek(fp,sizeof(PrecioPreparacion*-1),1); //revisar
-                fwrite(&p,sizeof(PrecioPreparacion),1,fp);
-                printf(" 's' para buscar otra preparacion\n")
-                fflush(stdin);
-                scanf("%c", &s);
-            }
-        }
-    }
-    while(s=='s');
-}
-
-void mostrarPrecioPreparacion(PreparacionVenta precios[20],int cantidad)
-{
-    for(int i = 0; i<cantidad; i++)
-    {
-        printf("%s \n", prec[i].nombre_preparacion);
-        printf("%i \n",prec[i].cantidad);
-        printf("------------------------------------------------------------------------------------\n");
-    }
-
-}
-
-void bajaVenta(char nombre_preparacion[20], int cantidad)
-{
-    char nombrePreparacion[20];
-    FILE* fp;
-    fp = fopen("precios.bin","r+b");
-    int cantPreparaciones = cantidad;
-    int i = 0;
+    FILE* fp ;
+    fp=fopen("precios.bin","wb");
     if (fp != NULL)
     {
-        printf("ingrese preparacion a dar de baja\n");
-        gets(nombrePreparacion);
-        fread(precios,sizeof(PreparacionVenta),1,fp);
-        while ( i < cantPreparaciones && strcmpi(nombrePreparacion, PreparacionVenta.nombre_preparacion) != 0)//cambiar x id venta
-        {
-            i++;
-            fread(precios,sizeof(PreparacionVenta),1,fp);
-        }
-        if (i < cantPreparaciones)
-        {
-            p.baja = 1; //doy de baja la persona // MODIFICAR (?)
-            fseek(fp,sizeof(Persona)*(-1),SEEK_CUR);
-            fwrite(&p,sizeof(Persona),1,fp);
-
-        }
+        fwrite(precios,sizeof(PrecioPreparacion),validos,fp);
         fclose(fp);
     }
 }
 
-void CargaArchivoVentas(char ventas[50], int cantItems)
+void despersistenciaPrecios(PrecioPreparacion precios[], int* validos)
 {
-    Venta v;
     FILE* fp;
-    fp = fopen(VENTAS,"ab");
+    fp=fopen("precios.bin","rb");
+    int i = 0;
     if (fp != NULL)
     {
-         for(int i=0;i<cantItems;i++)
-         {
-             fwrite(ventas,sizeof(Venta),1,fp);
-         }
+        while (fread(&precios[i], sizeof(PrecioPreparacion),1,fp) > 0 )
+        {
+            i++;
+        }
+        fclose(fp);
+        *validos = i;
     }
- fclose(VENTAS);
+
 }
+
+void mostrarUnPrecio(PrecioPreparacion p)
+{
+    printf("%s: %.3f\n", p.nombre_preparacion,p.precio_venta);
+}
+
+void mostrarTodosLosPrecios(PrecioPreparacion precios[], int* validosReceta)
+{
+    despersistenciaPrecios(precios,&validosReceta);
+
+    for(int i=0; i<validosReceta; i++)
+    {
+        printf("%d. ",i);
+        mostrarUnPrecio(precios[i]);
+        printf("-----------\n");
+    }
+}
+
+void modificarUnPrecio(PrecioPreparacion precios[], int validosReceta)
+{
+    int posicion;
+    mostrarTodosLosPrecios(precios,validosReceta);
+    printf("Posicion del precio que quiere cambiar: ");
+    scanf("%d", &posicion);
+
+    puts(precios[posicion].nombre_preparacion);
+    printf("PRECIO ACTUAL: %.3f\n",precios[posicion].precio_venta);
+    printf("PRECIO NUEVO: ");
+    scanf("%f", &precios[posicion].precio_venta);
+
+    persistenciaPrecios(precios,validosReceta);
+}
+
+void mostrarStockPreparados(PedidoPreparacion preparados[], int validosReceta)
+{
+    for(int i=0; i<validosReceta; i++)
+    {
+        printf("%s: %d\n", preparados[i].nombre_preparacion, preparados[i].cantidad);
+        printf("---------------\n");
+    }
+}
+
+void registrarUnaVenta(PreparacionVenta preparados[], Venta* p, PrecioPreparacion precios[], int validosReceta)
+{
+    int i=0; ///ITEMS CARGADOS
+    int posicion;
+
+    char seguir='s';
+
+    printf("ID VENTA: ");
+    scanf("%d", &((*p).idVenta));
+
+    //mostrarStockPreparados(preparados, validosReceta);
+    while(i<CANT_MAX && seguir=='s')
+    {
+        scanf("%d", &posicion);                                         ///PODEMOS PEDIR EL NOMBRE O LA POSICION, YO VEO MAS FACTIBLE PEDIR LA POSICION
+        printf("Digite cuantas %s quiere pedir: ", precios[posicion].nombre_preparacion);
+        scanf("%d", &(p->items_pedido->cantidad));
+
+        preparados[posicion].cantidad = preparados[posicion].cantidad - (p->items_pedido->cantidad);///FALTA LA CONDICION DE QUE SI
+        /// NO QUEDA MAS STOCK, DARLE LO MAXIMO QUE SE PUEDA
+        (*p).valor_total+= (float)preparados[posicion].cantidad * precios[posicion].precio_venta;  ///SE VA A IR SUMANDO EL VALOR TOTAL DE LA VENTA
+        i++;
+        printf("Desea agregar algo mas?\n");
+        fflush(stdin);
+        scanf("%c", &seguir);
+    }
+   (*p).cantItems= i; ///VALIDOS DE LA VENTA
+}
+
+void registrarVariasVentas(PreparacionVenta preparados[], Venta ventas[], PrecioPreparacion precios[], int* validosReceta, int* validosVenta)
+{
+    int i= *validosVenta; ///ARRANCA A CARGAR DESDE LA ULTIMA POSICION DEL ARREGLO DE VENTAS
+    char seguir='s';
+    Venta p;
+
+    while(i<CANT_MAX && seguir=='s')
+    {
+        registrarUnaVenta(preparados,&p,precios,validosReceta);
+        ventas[i]= p;
+        i++;
+        printf("%d\n", ventas[i].idVenta);
+        printf("Desea ingresar otra venta?\n");
+        fflush(stdin);
+        scanf("%c", &seguir);
+    }
+
+    *validosReceta=i;
+    persistenciaVentas(ventas,validosVenta);
+}
+
+void persistenciaVentas(Venta ventas[], int validos)
+{
+    FILE* fp;
+    fp=fopen("ventas.bin", "wb");
+
+    if(fp != NULL)
+    {
+        fwrite(ventas,sizeof(Venta),validos,fp);
+        fclose(fp);
+    }
+}
+
+void despersistenciaVentas(Venta ventas[], int* validos)
+{
+    FILE* fp;
+    fp=fopen("ventas.bin","rb");
+
+    int i = 0;
+    if (fp != NULL)
+    {
+        while (fread(&ventas[i], sizeof(Venta),1,fp) > 0 )
+        {
+            i++;
+        }
+        fclose(fp);
+        *validos = i;
+    }
+}
+
+int cantidadDeVentas()
+{
+    FILE* fp;
+    fp=fopen("ventas.bin","rb");
+    int cant;
+    if(fp != NULL)
+    {
+        fseek(fp,0,SEEK_END);
+        cant= ftell(fp) / sizeof(Venta);
+    }
+
+    return cant;
+}
+
+void bajaDeUnaVenta(Venta ventas[],int validosVentas)
+{
+    FILE* fp;
+    fp= fopen("precios.bin","r+b");
+    int cantidadVentas= cantidadDeVentas();
+    int i=0;
+    Venta p;
+    int id;
+
+    printf("Ingrese el ID que quiere eliminar: ");
+    scanf("%d", &id);
+
+
+    if(fp != NULL)
+    {
+        fread(&p,sizeof(Venta),1,fp);
+        while ( i < cantidadVentas && strcmpi(p.idVenta, id) != 0)
+        {
+            i++;
+            fread(&p,sizeof(Venta),1,fp);
+        }
+        if (i < cantidadVentas)
+        {
+            p.baja = 1; ///doy de baja la persona
+            fseek(fp,sizeof(Venta)*(-1),SEEK_CUR);
+            fwrite(&p,sizeof(Venta),1,fp);
+        }
+        fclose(fp);
+
+    }
+}
+
+void listaPreparadosYcantVentas (Preparacion prep,int validos)
+{
+    int i;
+    for(i=0; i<validos; i++)
+    {
+        printf("Lista preparados: \n");
+        printf("Nombre preparacion: %s \n",prep.nombre_preparacion);
+        printf("Cantidad: %i \n",prep.cantidad);
+    }
+
 //Pendiente: prototipados, revisar
 
 
