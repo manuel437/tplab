@@ -14,7 +14,7 @@ typedef struct
   char nombre_ingrediente[20];
   float cantidad;  //en kg o en litro segun el tipo de ingrediente
   char tipo[20]; /// "liquido" "solido"
-  float costo; ///costo por kg o por litro según corresponda
+  float costo; ///costo por kg o por litro segÃºn corresponda
 }StockIngrediente;
 
 //Paso 2
@@ -376,34 +376,34 @@ void agregarIngrediente(Receta[], int);
  void cargarReceta(Receta a){
      char continuar;
 int i=0;
-printf("Ingrese el nombre de la receta: ");
+printf("Ingrese el nombre de la receta: \n");
 fflush(stdin);
 gets((a).nombre_preparacion);
 fflush(stdin);
-printf("Ingrese la cantidad de ingredientes: ");
+printf("Ingrese la cantidad de ingredientes:\n ");
 fflush(stdin);
 scanf("%i", (a).cantIngredientes);
-printf("Ingrese los ingredientes: ");
+printf("Ingrese los ingredientes: \n");
 do{
     fflush(stdin);
     gets((a.ingredientes[i]).nombre_ingrediente);
-    printf("Ingrese la cantidad necesaria de este ingrediente: ");
+    printf("Ingrese la cantidad necesaria de este ingrediente: \n");
     scanf("%f", (a.ingredientes[i]).cantidad);
-    printf("Desea ingresar otro ingrediente? ");
+    printf("Desea ingresar otro ingrediente? \n");
     fflush(stdin);
     scanf("%c", continuar);
 }while(i<20 && continuar == 's');
 
 }
 
-void IngresarRecetas(Receta recetass[], int* cant_ele){
-    int i = 0;
+void IngresarRecetas(Receta recetass[], int* cant_ele){ //recetass[20]
+    int i = 0; //int i = (*cant_ele);
     char continuar;
-    do{
+    do{ //mejor usa un while, si el arreglo estuviera lleno el do while sobreescribiria el ultimo espacio del arreglo
         cargarReceta(recetass[i]);
-        printf("Desea ingresar otra receta? S/N ");
+        printf("Desea ingresar otra receta? S/N \n");
         fflush(stdin);
-        scanf("%c", continuar);
+        scanf("%c", &continuar);
         i++;
     }while(i<20 && continuar == 's');
     *cant_ele = i;
@@ -413,7 +413,7 @@ void IngresarRecetas(Receta recetass[], int* cant_ele){
 void agregarIngrediente(Receta recetass[], int cant_ele){
 char nombre[20];
 int i = 0;
-printf("Ingrese el nombre de la receta a modificar. ");
+printf("Ingrese el nombre de la receta a modificar. \n");
 fflush(stdin);
 gets(nombre);
 while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion, nombre) != 0){
@@ -421,10 +421,10 @@ while(i<cant_ele && strcmpi(recetass[i].nombre_preparacion, nombre) != 0){
 }
 recetass[i].cantIngredientes += 1;
 int b = recetass[i].cantIngredientes;
-printf("Ingrese el ingrediente que quiere agregar. ");
+printf("Ingrese el ingrediente que quiere agregar. \n");
 fflush(stdin);
 gets(recetass[i].ingredientes[b].nombre_ingrediente);
-printf("Ingrese la cantidad necesaria del ingrediente. ");
+printf("Ingrese la cantidad necesaria del ingrediente. \n");
 fflush(stdin);
 gets(recetass[i].ingredientes[b].nombre_ingrediente);
 }
