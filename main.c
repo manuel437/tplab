@@ -96,11 +96,14 @@ void despersistenciaPrecios(PrecioPreparacion [], int* );
 void mostrarUnPrecio(PrecioPreparacion);
 void mostrarTodosLosPrecios(PrecioPreparacion [], int* );
 void modificarUnPrecio(PrecioPreparacion [], int );
+void mostrarStockPreparados(PedidoPreparacion [], int );
 void registrarUnaVenta(PreparacionVenta [], Venta*, PrecioPreparacion [], int);
-int cantidadDeVentas(Venta[]);
 void registrarVariasVentas(PreparacionVenta [],Venta [],PrecioPreparacion [],int*,int*);
 void persistenciaVentas(Venta [], int);
 void despersistenciaVentas(Venta [], int*);
+int cantidadDeVentas(Venta[]);
+void bajaDeUnaVenta(Venta [],int );
+void listaPreparadosYcantVentas (Preparacion ,int );
 
 
 //funciones---------------------------------------------------------------------
