@@ -302,7 +302,7 @@ void cocinar(Preparacion demanda,StockIngrediente stock[],Receta recetario[20],i
     }
 
    persistenciaPrecios(precios, validos);
-} */
+} *//*
 void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
 {
     FILE* fp;
@@ -365,13 +365,14 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
     }else{
         printf("- fallo al abrir el archivo\n");
     }
-}
+}*/
 //Paso 4
 //Prototipados------------------------------------------------------------------------------
 void remanenteStock(StockIngrediente[], int);
 void listaPreparados(Preparacion[], int);
-void ingresoTotal(Venta[], int);
-void gananciaDia()
+float ingresoTotal(Venta[], int);
+float costoTotal(StockIngrediente[], int);
+void gananciaDia(Venta[], StockIngrediente[], int, int);
 
 
 //Funciones---------------------------------------------------------------------------------
@@ -395,12 +396,32 @@ for(int i=0 ; i<cant_ele ; i++){
 }
 }
 
-void ingresoTotal(Venta ventas[], int cant_ventas){
+float ingresoTotal(Venta ventas[], int cant_ventas){
     float ingreso = 0;
 for(int i=0 ; i<cant_ventas ; i++){
     ingreso += ventas[i].valor_total;
 }
 printf("El ingreso total es de %f",ingreso);
+return ingreso;
+
+}
+
+float costoTotal(StockIngrediente ingredientes[], int cant_ele){
+float costo = 0;
+for(int i = 0 ; i<cant_ele ; i++){
+   costo += ingredientes[i].cantidad*ingredientes[i].costo;
+}
+printf("El costo total es de %f", costo);
+return costo;
+
+}
+
+void gananciaDia(Venta ventas[], StockIngrediente ingredientes[], int cant_ventas, int cant_stock){
+float costo = costoTotal(ingredientes, cant_stock);
+float ingreso = ingresoTotal(ventas, cant_ventas);
+float ganancia = 0;
+ganancia = ingreso - costo;
+printf("Las ganancias del dia son de %f pesos. ", ganancia);
 
 }
 
@@ -511,20 +532,21 @@ printf("Ingrese la accion que quiera ejecutar: ");
 fflush(stdin);
 scanf("%i", opcion2);
 do{ switch(opcion2){
-case 1;
+case 1:
     IngresarRecetas(recetass, cant_ele);
     break;
-case 2;
+case 2:
     agregarIngrediente(recetass, cant_ele);
 break;
-case 3;
+case 3:
     bajaReceta(recetass, cant_ele);
 break;
-case 4;
+case 4:
     ordenarXNombre(recetass, cant_ele);
 break;}
 }while(opcion2!=0);
 }
+
 
 
 
