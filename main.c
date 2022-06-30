@@ -313,7 +313,7 @@ void cargarTodosLosPrecios(PrecioPreparacion precios_venta[], Receta nombre_prep
 void persistenciaPrecios(PrecioPreparacion precios[], int validos)
 {
     FILE* fp ;
-    fp=fopen("precios.bin","wb");
+    fp=fopen(PRECIOS,"wb");
     if (fp != NULL)
     {
         fwrite(precios,sizeof(PrecioPreparacion),validos,fp);
@@ -324,7 +324,7 @@ void persistenciaPrecios(PrecioPreparacion precios[], int validos)
 void despersistenciaPrecios(PrecioPreparacion precios[], int* validos)
 {
     FILE* fp;
-    fp=fopen("precios.bin","rb");
+    fp=fopen(PRECIOS,"rb");
     int i = 0;
     if (fp != NULL)
     {
@@ -431,7 +431,7 @@ void registrarVariasVentas(PreparacionVenta preparados[], Venta ventas[], Precio
 void persistenciaVentas(Venta ventas[], int validos)
 {
     FILE* fp;
-    fp=fopen("ventas.bin", "wb");
+    fp=fopen(CANT_VENTAS, "wb");
 
     if(fp != NULL)
     {
@@ -443,7 +443,7 @@ void persistenciaVentas(Venta ventas[], int validos)
 void despersistenciaVentas(Venta ventas[], int* validos)
 {
     FILE* fp;
-    fp=fopen("ventas.bin","rb");
+    fp=fopen(CANT_VENTAS,"rb");
 
     int i = 0;
     if (fp != NULL)
@@ -460,7 +460,7 @@ void despersistenciaVentas(Venta ventas[], int* validos)
 int cantidadDeVentas()
 {
     FILE* fp;
-    fp=fopen("ventas.bin","rb");
+    fp=fopen(CANT_VENTAS,"rb");
     int cant;
     if(fp != NULL)
     {
@@ -474,7 +474,7 @@ int cantidadDeVentas()
 void bajaDeUnaVenta(Venta ventas[],int validosVentas)
 {
     FILE* fp;
-    fp= fopen("precios.bin","r+b");
+    fp= fopen(PRECIOS,"r+b");
     int cantidadVentas= cantidadDeVentas();
     int i=0;
     Venta p;
