@@ -309,7 +309,7 @@ void despersistenciaPrecios(PrecioPreparacion precios[50], int validos)
     fp = fopen(PRECIOS,"rb");
     if(fp != NULL)
     {
-        fread(precios,sizeof(PreciosPreparacion),validos ,fp);
+        fread(precios,sizeof(PrecioPreparacion),validos ,fp);
         if(fclose(fp) != 0)
         {
             printf("- fallo al cerrar el archivo\n");
@@ -327,7 +327,7 @@ void persistenciaPrecios(PrecioPreparacion precios[50], int validos)
     fp = fopen("precios.bin","wb");
     if(fp != NULL)
     {
-        fwrite(precios,sizeof(PreciosPreparacion),validos ,fp);
+        fwrite(precios,sizeof(PrecioPreparacion),validos ,fp);
         if(fclose(fp) != 0)
         {
             printf("- fallo al cerrar el archivo\n");
@@ -350,9 +350,9 @@ void modPrecios(PrecioPreparacion precios[50], int validos)
         printf("ingrese una preparacion a buscar\n");
         scanf("%i",&pos);
         fseek(RECETAS,0,pos); //arreglar parametros
-        puts(nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
+        puts(precios->nombre_preparacion[pos]); //si nombre_preparacion fuera hola y pos = 1 imprimiria en pantalla o
         printf("ingrese un precio de venta\n");
-        scanf("%f", &PrecioPreparacion.precio_venta);
+        scanf("%f", PrecioPreparacion.precio_venta);
         printf(" 's' para buscar otra preparacion\n")
         fflush(stdin);
         scanf("%c", &s);
@@ -500,7 +500,7 @@ void ordenarXNombre(Receta recetass[], int cant_ele){
 }
 
 void Submenu(Receta recetass[], int cant_ele){
-    int opcion;
+    int opcion2;
 printf("Bienvenido al Submenu de Recetas \n");
 printf("1- Ingresar Recetas. \n");
 printf("2- Agregar Ingredientes. \n");
@@ -509,25 +509,21 @@ printf("4- Ordenar por Nombre. \n");
 printf("0- Salir. \n");
 printf("Ingrese la accion que quiera ejecutar: ");
 fflush(stdin);
-scanf("%i", opcion);
-if(opcion==1){
+scanf("%i", opcion2);
+do{ switch(opcion2){
+case 1;
     IngresarRecetas(recetass, cant_ele);
-}
-else if(opcion==2){
+    break;
+case 2;
     agregarIngrediente(recetass, cant_ele);
-}
-else if(opcion==3){
+break;
+case 3;
     bajaReceta(recetass, cant_ele);
-}
-else if(opcion==4){
+break;
+case 4;
     ordenarXNombre(recetass, cant_ele);
-}
-else{
-    printf("Ingrese una opcion valida: ");
-    fflush(stdin);
-    scanf("%i", opcion);
-}
-
+break;}
+}while(opcion2!=0);
 }
 
 
