@@ -518,7 +518,6 @@ void listaPreparadosYcantVentas (Preparacion prep,int validos)
         printf("Cantidad: %i \n",prep.cantidad);
     }
 
-//Pendiente: prototipados, revisar
 
 
 //Paso 4
