@@ -89,7 +89,7 @@ void pasePreparacionAPreparacionVenta(Preparacion,PreparacionVenta,int);
 void persistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 void despersistenciaPreparadosParaVenta(PreparacionVenta[50],int);
 
-//paso 2
+//paso 3
 void cargarTodosLosPrecios(PrecioPreparacion [], Receta[],int);
 void persistenciaPrecios(PrecioPreparacion [], int);
 void despersistenciaPrecios(PrecioPreparacion [], int* );
@@ -97,6 +97,7 @@ void mostrarUnPrecio(PrecioPreparacion);
 void mostrarTodosLosPrecios(PrecioPreparacion [], int* );
 void modificarUnPrecio(PrecioPreparacion [], int );
 void registrarUnaVenta(PreparacionVenta [], Venta*, PrecioPreparacion [], int);
+int cantidadDeVentas(Venta[]);
 void registrarVariasVentas(PreparacionVenta [],Venta [],PrecioPreparacion [],int*,int*);
 void persistenciaVentas(Venta [], int);
 void despersistenciaVentas(Venta [], int*);
@@ -457,7 +458,7 @@ void despersistenciaVentas(Venta ventas[], int* validos)
     }
 }
 
-int cantidadDeVentas()
+int cantidadDeVentas(Venta ventas[])
 {
     FILE* fp;
     fp=fopen(CANT_VENTAS,"rb");
