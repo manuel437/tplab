@@ -7,6 +7,7 @@
 #define RECETAS "recetas.bin"
 #define STOCK_VENTA "stockventa.bin"
 #define PRECIOS "precios.bin"
+#define CANT_VENTAS "cantventas.bin"
 
 
 
