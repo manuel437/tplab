@@ -397,12 +397,11 @@ void registrarUnaVenta(PreparacionVenta preparados[], Venta* p, PrecioPreparacio
     //mostrarStockPreparados(preparados, validosReceta);
     while(i<CANT_MAX && seguir=='s')
     {
-        scanf("%d", &posicion);                                         ///PODEMOS PEDIR EL NOMBRE O LA POSICION, YO VEO MAS FACTIBLE PEDIR LA POSICION
+        scanf("%d", &posicion);                                         
         printf("Digite cuantas %s quiere pedir: ", precios[posicion].nombre_preparacion);
-        scanf("%d", &(p->items_pedido->cantidad));
+        scanf("%d", &(*p).cantidad));
 
-        preparados[posicion].cantidad = preparados[posicion].cantidad - (p->items_pedido->cantidad);///FALTA LA CONDICION DE QUE SI
-        /// NO QUEDA MAS STOCK, DARLE LO MAXIMO QUE SE PUEDA
+        preparados[posicion].cantidad = preparados[posicion].cantidad - (items_pedido.cantidad);
         (*p).valor_total+= (float)preparados[posicion].cantidad * precios[posicion].precio_venta;  ///SE VA A IR SUMANDO EL VALOR TOTAL DE LA VENTA
         i++;
         printf("Desea agregar algo mas?\n");
