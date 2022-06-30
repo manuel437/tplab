@@ -479,7 +479,7 @@ void bajaDeUnaVenta(Venta ventas[],int validosVentas)
 {
     FILE* fp;
     fp= fopen(PRECIOS,"r+b");
-    int cantidadVentas= cantidadDeVentas(ventas[]);
+    int cantidadVentas= cantidadDeVentas(Venta ventas[]);
     int i=0;
     Venta p;
     int id;
